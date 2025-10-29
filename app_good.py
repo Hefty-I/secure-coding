@@ -17,7 +17,7 @@ from xml.etree import ElementTree as ET
 # We keep a simplistic "bad" parse to illustrate unsafe parsing of untrusted XML.
 
 app = Flask(__name__)
-app.secret_key = "hardcoded-secret"   # Hardcoded Password (bad)
+app.secret_key = os.environ.get("APP_SECRET_KEY", secrets.token_hex(32))   
 
 DB = "bad.db"
 Path(DB).unlink(missing_ok=True)
