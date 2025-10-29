@@ -109,7 +109,7 @@ Instead of trusting client input, implement proper server-side authentication:
 3. Never rely on client-supplied authorization data
 4. Implement proper session management
 """
-@app.get("/auth/bypass")
+@app.post("/auth/bypass")
 def auth_bypass():
     # ❌ BAD: trust a client-supplied flag
     # This is a critical security flaw - NEVER do this in real applications!
