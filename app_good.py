@@ -23,8 +23,9 @@ DB = "bad.db"
 Path(DB).unlink(missing_ok=True)
 conn = sqlite3.connect(DB)
 cur = conn.cursor()
+salt = secrets.token_bytes(16)
 cur.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT, password_hash TEXT, is_admin INTEGER)")
-cur.execute("INSERT INTO users (username,password_hash,is_admin) VALUES ('alice','" + hashlib.md5(b'Password123').hexdigest() + "',1)")  # Broken crypto (MD5) + string concat
+cur.execute("INSERT INTO users (username,password_hash,is_admin) VALUES ('alice','" + hashlib.sha256(b'Password123').hexdigest() + "',1)")  # Broken crypto (MD5) + string concat
 cur.execute("INSERT INTO users (username,password_hash,is_admin) VALUES ('bob','" + hashlib.sha256(b'Password123').hexdigest() + "',0)")  # Unsalted hash
 conn.commit(); conn.close()
 
